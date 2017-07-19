@@ -5,7 +5,6 @@ import Navbar from './Navbar'
 import { NavLink } from 'react-router-dom'
 
 
-
 const mapStateToProps = function(state) {
   return {
     students: state.students
@@ -16,21 +15,33 @@ const mapDispatchToProps = null;
 
 function listStudents(props){
 
-  console.log(props)
   return (
     <div>
       <Navbar />
-      <ul>
-        {
-          props.students.map(function(student){
-            return (
-                <li key={student.id}>
-                  <NavLink to={`/students/${student.id}`}>{student.name}</NavLink>
-                </li>
-              )
-          })
-        }
-      </ul>
+      <h1 className='campusesList'>Students</h1>
+
+      <table className='studentsTable'>
+        <tbody>
+          <tr>
+            <th className="tableHeadings">Student Name</th>
+            <th className="tableHeadings">Campus</th> 
+            <th className="tableHeadings">Expell Student</th>
+          </tr>
+          {
+            props.students.map(function(student){
+              return (
+                  <tr key={student.id}>
+                      <td><NavLink to={`/students/${student.id}`}>{student.name}</NavLink></td>
+                      <td><NavLink to={`/campuses/${student.campus.id}`}>{student.campus.name}</NavLink></td>
+                      <td><button className='X' type="button">X</button></td>
+                  </tr>
+                )
+            })
+          }
+        </tbody>
+      </table>
+
+
       <h2>Add Student:</h2>
       <form>
         <input type="text" placeholder="First Name" />

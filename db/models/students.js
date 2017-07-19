@@ -1,12 +1,50 @@
 'use strict';
-var Sequelize = require('sequelize')
-var db = require('../index.js')
+var Sequelize = require('sequelize');
+var db = require('../index.js');
+const Campuses = require('./campuses')
 
 var Students = db.define('students', {
   name: Sequelize.STRING,
   email: Sequelize.STRING,
   campusId: Sequelize.INTEGER,
   image: Sequelize.STRING
+} , {
+  classMethods: {
+    getStudentsWithCampus: function(campusId){
+      if(campusId){
+        return Campuses.find({
+          where: {id: campusId},
+            include: {
+              all: true
+            }
+          })
+        .then(function(studentsWithCampus){
+          return studentsWithCampus;
+        })
+      }
+      else {
+        return Students.findAll({
+          include: {
+            all: true
+          }
+        })
+        .then(function(studentWithCampus){
+          return studentWithCampus;
+        })
+      }
+    }, 
+    getStudentWithCampus: function(studentId){
+      return Students.find({
+        where: {id: studentId},
+        include: {
+          all: true
+        }
+      })
+      .then(function(studentWithCampus){
+        return studentWithCampus
+      })
+    }
+  }
 })
 
 Students.findOrCreate( {where: {name: 'Anne Marie King', email: 'amking23@gmail.com', image: 'http://i.imgur.com/MyzC5Dk.jpg'}})

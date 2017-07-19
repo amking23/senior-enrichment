@@ -9,28 +9,13 @@ var Sequelize = require('sequelize')
 const Students = require('./students')
 const Campuses = require('./campuses')
 
+Students.belongsTo(Campuses, {as: 'campus'})
 Campuses.hasMany(Students)
-Students.belongsTo(Campuses)
-
-// Students.find({ where: { id: 1 } })
-//   .on('success', function (student) {
-//     // Check if record exists in db
-//     if (student) {
-//       student.updateAttributes({
-//         campusId: 'a very different title now'
-//       })
-//       .success(function () {})
-//     }
-//   })
-
 
 for(var i = 1; i < 18; i++){
   Students.update({
     campusId: Math.floor(Math.random() * 4) + 1 ,
-  }, {
-    where: {
-        id: i
-    }
+      }, { where: { id: i }
   })
 }
 

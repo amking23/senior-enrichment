@@ -6,8 +6,13 @@ function getInitialState() {
   return {
     students: [],
     campuses: [],
-    selectedCampusStudents: [],
-    selectedStudent: {}
+    selectedCampus: {
+      students: []
+    },
+    selectedStudent: {
+      campus: {}
+    }
+    // , studentToRemove: {}
   }
 }
 
@@ -17,6 +22,7 @@ const GET_STUDENTS = 'GET_STUDENTS';
 const GET_CAMPUSES = 'GET_CAMPUSES';
 const GET_CAMPUS = 'GET_CAMPUS';
 const GET_STUDENT = 'GET_STUDENT'
+// const REMOVE_STUDENT = 'REMOVE_STUDENT'
 
 
 //ACTION CREATORS----------------------------------------------------------
@@ -31,8 +37,8 @@ export function getCampuses (campuses) {
   return action;
 }
 
-export function getIndividualCampusStudents (selectedCampusStudents) {
-  const action = { type: GET_CAMPUS, selectedCampusStudents };
+export function getIndividualCampusStudents (selectedCampus) {
+  const action = { type: GET_CAMPUS, selectedCampus };
   return action;
 }
 
@@ -41,7 +47,10 @@ export function getStudent (selectedStudent) {
   return action;
 }
 
-
+// export function removeStudent (studentToRemove) {
+//   const action = { type: REMOVE_STUDENT, studentToRemove }
+//   return action
+// }
 
 
 //REDUCERS----------------------------------------------------------
@@ -56,10 +65,13 @@ export const rootReducer = function(state = getInitialState(), action) {
       return Object.assign({}, state, {campuses: action.campuses})
 
     case GET_CAMPUS:
-      return Object.assign({}, state, {selectedCampusStudents: action.selectedCampusStudents})
+      return Object.assign({}, state, {selectedCampus: action.selectedCampus})
 
     case GET_STUDENT:
       return Object.assign({}, state, {selectedStudent: action.selectedStudent})
+
+    // case REMOVE_STUDENT:
+    //   return Object.assign({}, state, {studentToRemove: action.studentToRemove})
 
 
     default: return state
@@ -96,14 +108,14 @@ export function getCampusesThunkCreator() {
   }
 }
 
-export function getIndividualCampusThunkCreator(studentsAtCampus) {
+export function getIndividualCampusThunkCreator(campusId) {
   return function getIndividualCampusThunk(dispatch) {
-    return axios.get(`/api/campuses/${studentsAtCampus}`)
+    return axios.get(`/api/campuses/${campusId}`)
       .then(function(res){
         return res.data
       })
-      .then(function(studentsAtCampus) {
-        const action = getIndividualCampusStudents(studentsAtCampus)
+      .then(function(selectedCampus) {
+        const action = getIndividualCampusStudents(selectedCampus)
         dispatch(action)
       })
       .catch(err => console.error('Fetching students at campus unsuccessful', err))
@@ -123,5 +135,12 @@ export function getStudentThunkCreator(studentId) {
       .catch(err => console.error('Fetching students unsuccessful', err))
   }
 }
+
+// export function removeStudentThunkCreator(studentId) {
+//   return function removeStudentThunk(dispatch) 
+//     dispatch(removeStudent(studentId));
+//     axios.delete(`/api/students/${studentId}`)
+//       .catch(err => console.error(`Removing student: ${studentId} unsuccessfull`, err))
+// }
 
 export default rootReducer

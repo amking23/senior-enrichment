@@ -23,7 +23,7 @@ function listCampuses(props){
           props.campuses.map(function(campus){
             return (
                 <li key={campus.id}>
-                  <h1 className="campusesList">{campus.name}</h1>
+                  <h1 className="campusesList"><NavLink to={`/campuses/${campus.id}`}>{campus.name}</NavLink></h1>
                   <NavLink to={`/campuses/${campus.id}`}><img className="campusPic" src={campus.image} /></NavLink>
                 </li>
               )

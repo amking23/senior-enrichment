@@ -11,7 +11,7 @@ api.get('/hello', (req, res) => res.send({hello: 'world'}))
 
 //STUDENTS
 api.get('/students', function(req, res, next) {
-  Students.findAll()
+  Students.getStudentsWithCampus()
   .then(function(students){
     res.json(students)
   })
@@ -19,7 +19,7 @@ api.get('/students', function(req, res, next) {
 })
 
 api.get('/students/:studentId', function(req, res, next) {
-  Students.findById(req.params.studentId)
+  Students.getStudentWithCampus(req.params.studentId)
   .then(function(student){
     res.json(student)
   })
@@ -35,13 +35,18 @@ api.get('/campuses', function(req, res, next) {
 })
 
 api.get('/campuses/:campusId', function(req, res, next) {
-  let campusId = +req.params.campusId
-  Students.findAll({where: {campusId: req.params.campusId}})
+  Students.getStudentsWithCampus(req.params.campusId)
   .then(function(students){
     res.json(students)
   })
   .catch(next)
 })
+
+// api.delete('/students/:studentId', function(req, res, next) {
+//   Students.destroy({where: {id: req.params.studentId}})
+//   .then(() => res.status(204).end())
+//   .catch(next)
+// })
 
 
 
