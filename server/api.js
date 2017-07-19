@@ -42,11 +42,11 @@ api.get('/campuses/:campusId', function(req, res, next) {
   .catch(next)
 })
 
-// api.delete('/students/:studentId', function(req, res, next) {
-//   Students.destroy({where: {id: req.params.studentId}})
-//   .then(() => res.status(204).end())
-//   .catch(next)
-// })
+api.delete('/students/:studentId', function(req, res, next) {
+  Students.destroy({where: {id: req.params.studentId}})
+  .then(() => res.status(204).end())
+  .catch(next)
+})
 
 
 

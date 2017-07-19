@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import store from '../store.jsx'
 import Navbar from './Navbar'
 import { NavLink } from 'react-router-dom'
+import { removeStudentThunkCreator } from '../reducers/index.jsx'
 
 
 const mapStateToProps = function(state) {
@@ -11,14 +12,16 @@ const mapStateToProps = function(state) {
   }
 }
 
-const mapDispatchToProps = null;
+const mapDispatchToProps = dispatch => ({
+  removeStudent:(studentId) => dispatch(removeStudentThunkCreator(studentId))
+});
 
 function listStudents(props){
 
   return (
     <div>
       <Navbar />
-      <h1 className='campusesList'>Students</h1>
+      <h1 className='campusesList'>Students <NavLink to="/students/add" className='plus'>+</NavLink></h1>
 
       <table className='studentsTable'>
         <tbody>
@@ -33,27 +36,13 @@ function listStudents(props){
                   <tr key={student.id}>
                       <td><NavLink to={`/students/${student.id}`}>{student.name}</NavLink></td>
                       <td><NavLink to={`/campuses/${student.campus.id}`}>{student.campus.name}</NavLink></td>
-                      <td><button className='X' type="button">X</button></td>
+                      <td><button className='X' onClick={() => props.removeStudent(student.id)} type="button">X</button></td>
                   </tr>
                 )
             })
           }
         </tbody>
       </table>
-
-
-      <h2>Add Student:</h2>
-      <form>
-        <input type="text" placeholder="First Name" />
-        <input type="text" placeholder="Last Name" />
-        <input type="text" placeholder="E-Mail" />
-          <select name="cars">
-            <option value="#">Campus 1</option>
-            <option value="#">Campus 2</option>
-            <option value="#">Campus 3</option>
-            <option value="#">Campus 4</option>
-          </select>
-      </form>
     </div>
   )
 }

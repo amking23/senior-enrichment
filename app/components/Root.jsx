@@ -11,6 +11,7 @@ import StudentListContainer from './Students'
 import CampusListContainer from './Campuses'
 import IndividualCampusContainer from './IndividualCampus'
 import IndividualStudent from './IndividualStudent'
+import NewStudentForm from './NewStudentForm'
 // import { render } from 'react-dom'
 
 
@@ -32,6 +33,7 @@ class Root extends Component {
       <Router history={history}>
         <Switch>
           <Route exact path="/students" component={StudentListContainer} />
+          <Route path="/students/add" component={NewStudentForm} />
           <Route path="/students/:studentId" component={IndividualStudent} />
           <Route path="/campuses/:campusId" component={IndividualCampusContainer} />
           <Route path="/campuses" component={CampusListContainer} />

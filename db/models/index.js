@@ -12,12 +12,5 @@ const Campuses = require('./campuses')
 Students.belongsTo(Campuses, {as: 'campus'})
 Campuses.hasMany(Students)
 
-for(var i = 1; i < 18; i++){
-  Students.update({
-    campusId: Math.floor(Math.random() * 4) + 1 ,
-      }, { where: { id: i }
-  })
-}
-
 
 module.exports = {Students, Campuses}

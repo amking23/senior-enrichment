@@ -125,6 +125,14 @@ body, html {
   font-family: 'Work Sans', sans-serif;
 }
 
+.plus {
+  color: green;
+  font-weight: bold;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 40px;
+  text-decoration: none;
+}
+
 .tableHeadings {
   font-weight: bold;
   text-decoration: underline;

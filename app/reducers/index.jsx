@@ -11,8 +11,8 @@ function getInitialState() {
     },
     selectedStudent: {
       campus: {}
-    }
-    // , studentToRemove: {}
+    },
+    studentToRemove: {}
   }
 }
 
@@ -22,7 +22,7 @@ const GET_STUDENTS = 'GET_STUDENTS';
 const GET_CAMPUSES = 'GET_CAMPUSES';
 const GET_CAMPUS = 'GET_CAMPUS';
 const GET_STUDENT = 'GET_STUDENT'
-// const REMOVE_STUDENT = 'REMOVE_STUDENT'
+const REMOVE_STUDENT = 'REMOVE_STUDENT'
 
 
 //ACTION CREATORS----------------------------------------------------------
@@ -47,10 +47,10 @@ export function getStudent (selectedStudent) {
   return action;
 }
 
-// export function removeStudent (studentToRemove) {
-//   const action = { type: REMOVE_STUDENT, studentToRemove }
-//   return action
-// }
+export function removeStudent (studentToRemove) {
+  const action = { type: REMOVE_STUDENT, studentToRemove}
+  return action
+}
 
 
 //REDUCERS----------------------------------------------------------
@@ -70,8 +70,8 @@ export const rootReducer = function(state = getInitialState(), action) {
     case GET_STUDENT:
       return Object.assign({}, state, {selectedStudent: action.selectedStudent})
 
-    // case REMOVE_STUDENT:
-    //   return Object.assign({}, state, {studentToRemove: action.studentToRemove})
+    case REMOVE_STUDENT:
+      return Object.assign({}, state, {students: state.students.filter(student => student.id !== action.studentToRemove)})
 
 
     default: return state
@@ -136,11 +136,14 @@ export function getStudentThunkCreator(studentId) {
   }
 }
 
-// export function removeStudentThunkCreator(studentId) {
-//   return function removeStudentThunk(dispatch) 
-//     dispatch(removeStudent(studentId));
-//     axios.delete(`/api/students/${studentId}`)
-//       .catch(err => console.error(`Removing student: ${studentId} unsuccessfull`, err))
-// }
+export function removeStudentThunkCreator(studentId) {
+  console.log('in thunk creator')
+  return function removeStudentThunk(dispatch) {
+    console.log('in thunk')
+    dispatch(removeStudent(studentId));
+    axios.delete(`/api/students/${studentId}`)
+      .catch(err => console.error(`Removing student: ${studentId} unsuccessful`, err))
+  }
+}
 
 export default rootReducer
