@@ -21,6 +21,7 @@ class NewStudentForm extends React.Component{
     this.onSubmit = this.onSubmit.bind(this)
     this.getSelectedCampus = this.getSelectedCampus.bind(this)
   }
+  
 
   onSubmit(event) {
     event.preventDefault();
