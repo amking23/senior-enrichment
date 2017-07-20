@@ -27,9 +27,9 @@ api.get('/students/:studentId', function(req, res, next) {
 })
 
 api.get('/campuses', function(req, res, next) {
-  Campuses.findAll()
-  .then(function(campuses){
-    res.json(campuses)
+  Campuses.getCampusesWithStudents()
+  .then(function(campusesWithStudents){
+    res.json(campusesWithStudents)
   })
   .catch(next)
 })
@@ -68,6 +68,12 @@ api.post('/campuses/add', function(req, res, next) {
 
 api.delete('/students/:studentId', function(req, res, next) {
   Students.destroy({where: {id: req.params.studentId}})
+  .then(() => res.status(204).end())
+  .catch(next)
+})
+
+api.delete('/campuses/:campusId', function(req, res, next) {
+  Campuses.destroy({where: {id: req.params.campusId}})
   .then(() => res.status(204).end())
   .catch(next)
 })

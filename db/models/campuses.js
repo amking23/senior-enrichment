@@ -5,6 +5,19 @@ var db = require('../index.js')
 var Campuses = db.define('campuses', {
   name: Sequelize.STRING,
   image: Sequelize.STRING
+} , {
+  classMethods: {
+    getCampusesWithStudents: function(){
+      return Campuses.findAll({
+        include: {
+          all: true
+        }
+      })
+      .then(function(campusesWithStudents){
+        return campusesWithStudents;
+      })
+    }
+  }
 })
 
 // Campuses.findOrCreate( {where: {name: 'Wyoming', image: 'http://i.imgur.com/oHksTv7.jpg'} })

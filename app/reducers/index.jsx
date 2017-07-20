@@ -15,7 +15,8 @@ function getInitialState() {
     },
     studentToRemove: {},
     studentToAdd: {},
-    campusToAdd: {}
+    campusToAdd: {},
+    campusToRemove: {}
   }
 }
 
@@ -28,6 +29,7 @@ const GET_STUDENT = 'GET_STUDENT';
 const REMOVE_STUDENT = 'REMOVE_STUDENT';
 const ADD_STUDENT = 'ADD_STUDENT';
 const ADD_CAMPUS = 'ADD_CAMPUS';
+const REMOVE_CAMPUS = 'REMOVE_CAMPUS';
 
 
 //ACTION CREATORS----------------------------------------------------------
@@ -67,6 +69,11 @@ export function addCampus (studentToAdd) {
   return action
 }
 
+export function removeCampus (campusToRemove) {
+  const action = { type: REMOVE_CAMPUS, campusToRemove}
+  return action
+}
+
 
 //REDUCERS----------------------------------------------------------
 
@@ -93,6 +100,9 @@ export const rootReducer = function(state = getInitialState(), action) {
 
     case ADD_CAMPUS:
       return Object.assign({}, state, {campuses: [action.campuses, ...action.campusToAdd]})
+
+    case REMOVE_CAMPUS:
+      return Object.assign({}, state, {campuses: state.campuses.filter(campus => campus.id !== action.campusToRemove)})
 
     default: return state
 
@@ -181,6 +191,14 @@ export function addCampusThunkCreator(campusToAdd) {
       store.dispatch(getCampusesThunkCreator())
     })
       .catch(err => console.error(`Adding campus unsuccessful`, err))
+  }
+}
+
+export function removeCampusThunkCreator(campusId) {
+  return function removeCampusThunk(dispatch) {
+    dispatch(removeCampus(campusId));
+    axios.delete(`/api/campuses/${campusId}`)
+      .catch(err => console.error(`Removing campus: ${campusId} unsuccessful`, err))
   }
 }
 

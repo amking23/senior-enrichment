@@ -38,11 +38,7 @@ class NewStudentForm extends React.Component{
   getSelectedCampus(event){
     var id = event.nativeEvent.target.selectedIndex;
     let currentCampusName = event.nativeEvent.target[id]
-    console.log('props ', this.props)
     let currentCampusId = this.props.campuses.filter(function(campus){
-      // console.log(campus.name)
-      // console.log(currentCampusName)
-      console.log(campus.name === currentCampusName.innerHTML)
       return campus.name === currentCampusName.innerHTML
     })[0].id
     this.setState({selectedCampus: currentCampusName})

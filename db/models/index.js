@@ -10,7 +10,7 @@ const Students = require('./students')
 const Campuses = require('./campuses')
 
 Students.belongsTo(Campuses, {as: 'campus'})
-Campuses.hasMany(Students)
+Campuses.hasMany(Students, {as: 'students'})
 
 
 module.exports = {Students, Campuses}
