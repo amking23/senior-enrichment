@@ -170,6 +170,9 @@ export function removeStudentThunkCreator(studentId) {
   return function removeStudentThunk(dispatch) {
     dispatch(removeStudent(studentId));
     axios.delete(`/api/students/${studentId}`)
+    .then(function(){
+      store.dispatch(getCampusesThunkCreator())
+    })
       .catch(err => console.error(`Removing student: ${studentId} unsuccessful`, err))
   }
 }

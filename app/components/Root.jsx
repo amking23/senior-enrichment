@@ -13,7 +13,7 @@ import IndividualCampusContainer from './IndividualCampus'
 import IndividualStudent from './IndividualStudent'
 import NewStudentForm from './NewStudentForm'
 import NewCampusForm from './NewCampusForm'
-// import { render } from 'react-dom'
+import EditStudent from './EditStudent'
 
 
 class Root extends Component {
@@ -35,6 +35,7 @@ class Root extends Component {
         <Switch>
           <Route exact path="/students" component={StudentListContainer} />
           <Route path="/students/add" component={NewStudentForm} />
+          <Route path="/students/edit/:studentId" component={EditStudent} />
           <Route path="/students/:studentId" component={IndividualStudent} />
           <Route exact path="/campuses" component={CampusListContainer} />
           <Route path="/campuses/add" component={NewCampusForm} />

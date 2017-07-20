@@ -18,7 +18,8 @@ const mapDispatchToProps = dispatch => ({
     if(campus.students.length === 0){
       return dispatch(removeCampusThunkCreator(campusId))
     } else {
-      alert("Can't delete campus while students are attending! Please delete or reassign students attending this campus.");
+      console.log('students: ', campus.students)
+      alert("Can't delete campus while students are attending! Please expell or reassign students attending this campus.");
     }
   }
 });
