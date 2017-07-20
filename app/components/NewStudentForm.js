@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import store from '../store.jsx'
 import Navbar from './Navbar'
 import { NavLink } from 'react-router-dom'
+import { Redirect } from 'react-router'
 import { addStudentThunkCreator } from '../reducers/index.jsx'
+import StudentListContainer from './Students'
 
 
 
@@ -13,7 +15,8 @@ class NewStudentForm extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      selectedCampus: '1'
+      selectedCampus: '1',
+      redirectToStudents: false
     }
     this.onSubmit = this.onSubmit.bind(this)
     this.getSelectedCampus = this.getSelectedCampus.bind(this)
@@ -28,6 +31,7 @@ class NewStudentForm extends React.Component{
         campusId: this.state.selectedCampus
         }
       );
+    this.state.redirectToStudents = true;
   }
 
   getSelectedCampus(event){
@@ -36,6 +40,11 @@ class NewStudentForm extends React.Component{
   }
 
   render() {
+    if(this.state.redirectToStudents){
+      return (
+        <Redirect to='/students' />
+     )
+    }
     return (
       <div>
         <Navbar />

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import axios from 'axios'
+import store from '../store.jsx'
 
 
 function getInitialState() {
@@ -156,6 +157,9 @@ export function removeStudentThunkCreator(studentId) {
 export function addStudentThunkCreator(studentToAdd) {
   return function addStudentThunk(dispatch) {
     axios.post(`/api/students/add`, studentToAdd)
+    .then(function(){
+      store.dispatch(getStudentsThunkCreator())
+    })
       .catch(err => console.error(`Adding student unsuccessful`, err))
   }
 }
