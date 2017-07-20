@@ -18,6 +18,7 @@ function listCampuses(props){
   return (
     <div>
       <Navbar />
+      <h1 className='campusesList'>Campuses <NavLink to="/campuses/add" className='plus'>+</NavLink></h1>
       <ul>
         {
           props.campuses.map(function(campus){
