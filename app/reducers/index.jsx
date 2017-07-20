@@ -14,7 +14,8 @@ function getInitialState() {
       campus: {}
     },
     studentToRemove: {},
-    studentToAdd: {}
+    studentToAdd: {},
+    campusToAdd: {}
   }
 }
 
@@ -25,7 +26,8 @@ const GET_CAMPUSES = 'GET_CAMPUSES';
 const GET_CAMPUS = 'GET_CAMPUS';
 const GET_STUDENT = 'GET_STUDENT';
 const REMOVE_STUDENT = 'REMOVE_STUDENT';
-const ADD_STUDENT = 'ADD_STUDENT'
+const ADD_STUDENT = 'ADD_STUDENT';
+const ADD_CAMPUS = 'ADD_CAMPUS';
 
 
 //ACTION CREATORS----------------------------------------------------------
@@ -60,6 +62,11 @@ export function addStudent (studentToAdd) {
   return action
 }
 
+export function addCampus (studentToAdd) {
+  const action = { type: ADD_CAMPUS, campusToAdd}
+  return action
+}
+
 
 //REDUCERS----------------------------------------------------------
 
@@ -83,6 +90,9 @@ export const rootReducer = function(state = getInitialState(), action) {
 
     case ADD_STUDENT:
       return Object.assign({}, state, {students: [action.students, ...action.studentToAdd]})
+
+    case ADD_CAMPUS:
+      return Object.assign({}, state, {campuses: [action.campuses, ...action.campusToAdd]})
 
     default: return state
 
@@ -161,6 +171,16 @@ export function addStudentThunkCreator(studentToAdd) {
       store.dispatch(getStudentsThunkCreator())
     })
       .catch(err => console.error(`Adding student unsuccessful`, err))
+  }
+}
+
+export function addCampusThunkCreator(campusToAdd) {
+  return function addCampusThunk(dispatch) {
+    axios.post(`/api/campuses/add`, campusToAdd)
+    .then(function(){
+      store.dispatch(getCampusesThunkCreator())
+    })
+      .catch(err => console.error(`Adding campus unsuccessful`, err))
   }
 }
 

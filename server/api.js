@@ -43,7 +43,6 @@ api.get('/campuses/:campusId', function(req, res, next) {
 })
 
 api.post('/students/add', function(req, res, next) {
-  console.log("req body", req.body)
   Students.create({
     name: req.body.name,
     email: req.body.email,
@@ -52,6 +51,17 @@ api.post('/students/add', function(req, res, next) {
   })
   .then(function (newStudent){
     res.status(201).json(newStudent)
+  })
+  .catch(next)
+})
+
+api.post('/campuses/add', function(req, res, next) {
+  Campuses.create({
+    name: req.body.name,
+    image: req.body.image,
+  })
+  .then(function (newCampus){
+    res.status(201).json(newCampus)
   })
   .catch(next)
 })

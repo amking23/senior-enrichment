@@ -5,7 +5,6 @@ import Navbar from './Navbar'
 import { NavLink } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import { addStudentThunkCreator } from '../reducers/index.jsx'
-import StudentListContainer from './Students'
 
 
 
@@ -21,7 +20,7 @@ class NewStudentForm extends React.Component{
     this.onSubmit = this.onSubmit.bind(this)
     this.getSelectedCampus = this.getSelectedCampus.bind(this)
   }
-  
+
 
   onSubmit(event) {
     event.preventDefault();
@@ -37,7 +36,7 @@ class NewStudentForm extends React.Component{
 
   getSelectedCampus(event){
     var id = event.nativeEvent.target.selectedIndex;
-    this.setState({selectedCampus: event.nativeEvent.target[id].text})
+    this.setState({selectedCampus: event.nativeEvent.target[id].name})
   }
 
   render() {
@@ -55,10 +54,10 @@ class NewStudentForm extends React.Component{
               <input name="email" type="text" placeholder="E-Mail" />
               <input name="image" type="text" placeholder="Image URL" />
               <select onChange={this.getSelectedCampus} name="campusId">
-                <option name="1">1</option>
-                <option name="2">2</option>
-                <option name="3">3</option>
-                <option name="4">4</option>
+                <option name="1">Campus 1</option>
+                <option name="2">Campus 2</option>
+                <option name="3">Campus 3</option>
+                <option name="4">Campus 4</option>
               </select>
               <input type="submit" />
           </form>
@@ -80,10 +79,6 @@ const mapDispatchToProps = function(dispatch) {
     }
   }
 }
-
-// const mapDispatchToProps = dispatch => ({
-//   addStudent:(studentToAdd) => dispatch(addStudentThunkCreator(studentToAdd))
-// });
 
 
 const NewStudentFormContainer = connect(mapStateToProps, mapDispatchToProps)(NewStudentForm)
