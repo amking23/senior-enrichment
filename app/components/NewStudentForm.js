@@ -3,39 +3,81 @@ import { connect } from 'react-redux';
 import store from '../store.jsx'
 import Navbar from './Navbar'
 import { NavLink } from 'react-router-dom'
+import { addStudentThunkCreator } from '../reducers/index.jsx'
 
-// const mapStateToProps = function(state) {
-//   return {
-//     campuses: state.campuses
-//   }
-// }
 
-// const mapDispatchToProps = null;
 
-function NewStudentForm(props){
-  return (
-    <div>
-      <Navbar />
-        <h2>Add Student:</h2>
-        <form>
-          <input type="text" placeholder="First Name" />
-          <input type="text" placeholder="Last Name" />
-          <input type="text" placeholder="E-Mail" />
-          <input type="text" placeholder="Image Link" />
-            <select name="cars">
-              <option value="1">Campus 1</option>
-              <option value="2">Campus 2</option>
-              <option value="3">Campus 3</option>
-              <option value="4">Campus 4</option>
-            </select>
-          <button>Submit</button>
-        </form>
-    </div>
-  )
+
+class NewStudentForm extends React.Component{
+
+  constructor(props){
+    super(props)
+    this.state = {
+      selectedCampus: '1'
+    }
+    this.onSubmit = this.onSubmit.bind(this)
+    this.getSelectedCampus = this.getSelectedCampus.bind(this)
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+    this.props.addStudent(
+      { name: event.target.name.value,
+        email: event.target.email.value,
+        image: event.target.image.value,
+        campusId: this.state.selectedCampus
+        }
+      );
+  }
+
+  getSelectedCampus(event){
+    var id = event.nativeEvent.target.selectedIndex;
+    this.setState({selectedCampus: event.nativeEvent.target[id].text})
+  }
+
+  render() {
+    return (
+      <div>
+        <Navbar />
+          <h2>Add Student:</h2>
+          <form onSubmit={this.onSubmit}>
+              <input name="name" type="text" placeholder="First Name" />
+              <input name="email" type="text" placeholder="E-Mail" />
+              <input name="image" type="text" placeholder="Image URL" />
+              <select onChange={this.getSelectedCampus} name="campusId">
+                <option name="1">1</option>
+                <option name="2">2</option>
+                <option name="3">3</option>
+                <option name="4">4</option>
+              </select>
+              <input type="submit" />
+          </form>
+      </div>
+    )
+  }
 }
 
-// const CampusListContainer = connect(mapStateToProps, mapDispatchToProps)(listCampuses)
+const mapStateToProps = function(state) {
+  return {
+    students: state.students
+  }
+}
 
-export default NewStudentForm;
+const mapDispatchToProps = function(dispatch) {
+  return {
+    addStudent: function(studentToAdd){
+      dispatch(addStudentThunkCreator(studentToAdd))
+    }
+  }
+}
+
+// const mapDispatchToProps = dispatch => ({
+//   addStudent:(studentToAdd) => dispatch(addStudentThunkCreator(studentToAdd))
+// });
+
+
+const NewStudentFormContainer = connect(mapStateToProps, mapDispatchToProps)(NewStudentForm)
+
+export default NewStudentFormContainer;
 
 

@@ -42,6 +42,20 @@ api.get('/campuses/:campusId', function(req, res, next) {
   .catch(next)
 })
 
+api.post('/students/add', function(req, res, next) {
+  console.log("req body", req.body)
+  Students.create({
+    name: req.body.name,
+    email: req.body.email,
+    image: req.body.image,
+    campusId: req.body.campusId
+  })
+  .then(function (newStudent){
+    res.status(201).json(newStudent)
+  })
+  .catch(next)
+})
+
 api.delete('/students/:studentId', function(req, res, next) {
   Students.destroy({where: {id: req.params.studentId}})
   .then(() => res.status(204).end())

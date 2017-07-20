@@ -12,7 +12,8 @@ function getInitialState() {
     selectedStudent: {
       campus: {}
     },
-    studentToRemove: {}
+    studentToRemove: {},
+    studentToAdd: {}
   }
 }
 
@@ -21,8 +22,9 @@ function getInitialState() {
 const GET_STUDENTS = 'GET_STUDENTS';
 const GET_CAMPUSES = 'GET_CAMPUSES';
 const GET_CAMPUS = 'GET_CAMPUS';
-const GET_STUDENT = 'GET_STUDENT'
-const REMOVE_STUDENT = 'REMOVE_STUDENT'
+const GET_STUDENT = 'GET_STUDENT';
+const REMOVE_STUDENT = 'REMOVE_STUDENT';
+const ADD_STUDENT = 'ADD_STUDENT'
 
 
 //ACTION CREATORS----------------------------------------------------------
@@ -52,6 +54,11 @@ export function removeStudent (studentToRemove) {
   return action
 }
 
+export function addStudent (studentToAdd) {
+  const action = { type: ADD_STUDENT, studentToAdd}
+  return action
+}
+
 
 //REDUCERS----------------------------------------------------------
 
@@ -73,6 +80,8 @@ export const rootReducer = function(state = getInitialState(), action) {
     case REMOVE_STUDENT:
       return Object.assign({}, state, {students: state.students.filter(student => student.id !== action.studentToRemove)})
 
+    case ADD_STUDENT:
+      return Object.assign({}, state, {students: [action.students, ...action.studentToAdd]})
 
     default: return state
 
@@ -137,12 +146,17 @@ export function getStudentThunkCreator(studentId) {
 }
 
 export function removeStudentThunkCreator(studentId) {
-  console.log('in thunk creator')
   return function removeStudentThunk(dispatch) {
-    console.log('in thunk')
     dispatch(removeStudent(studentId));
     axios.delete(`/api/students/${studentId}`)
       .catch(err => console.error(`Removing student: ${studentId} unsuccessful`, err))
+  }
+}
+
+export function addStudentThunkCreator(studentToAdd) {
+  return function addStudentThunk(dispatch) {
+    axios.post(`/api/students/add`, studentToAdd)
+      .catch(err => console.error(`Adding student unsuccessful`, err))
   }
 }
 
